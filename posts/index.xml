@@ -6,28 +6,14 @@
     <description>Recent content in Posts on Ali Askari</description>
     <generator>Hugo -- 0.148.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 08 Aug 2025 19:16:53 +0330</lastBuildDate>
+    <lastBuildDate>Fri, 08 Aug 2025 19:16:51 +0330</lastBuildDate>
     <atom:link href="https://ali-askari-dev.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Unreal Engine Compute Shader Example</title>
-      <link>https://ali-askari-dev.github.io/posts/post3/</link>
-      <pubDate>Fri, 08 Aug 2025 19:16:53 +0330</pubDate>
-      <guid>https://ali-askari-dev.github.io/posts/post3/</guid>
-      <description>Basic compute shader that calculates sum of two large arrays</description>
-    </item>
-    <item>
-      <title>UE5 Render Graph Builder</title>
-      <link>https://ali-askari-dev.github.io/posts/post2/</link>
-      <pubDate>Fri, 08 Aug 2025 19:16:52 +0330</pubDate>
-      <guid>https://ali-askari-dev.github.io/posts/post2/</guid>
-      <description>Let&amp;rsquo;s see how render dependency graph works in Unreal Engine</description>
-    </item>
-    <item>
-      <title>UE5 Custom Asset Definition</title>
+      <title>Unreal Engine: Defining Your Own Asset Types </title>
       <link>https://ali-askari-dev.github.io/posts/post1/</link>
       <pubDate>Fri, 08 Aug 2025 19:16:51 +0330</pubDate>
       <guid>https://ali-askari-dev.github.io/posts/post1/</guid>
-      <description>Learn how to extend Unreal Editor with custom asset type</description>
+      <description>Extend Unreal editor with your custom asset type</description>
     </item>
   </channel>
 </rss>
