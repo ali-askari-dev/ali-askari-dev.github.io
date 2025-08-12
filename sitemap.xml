@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://ali-askari-dev.github.io/posts/</loc>
+    <loc>https://ali-askari-dev.github.io/posts/post1/</loc>
     <lastmod>2025-08-08T19:16:51+03:30</lastmod>
   </url><url>
-    <loc>https://ali-askari-dev.github.io/posts/post1/</loc>
+    <loc>https://ali-askari-dev.github.io/posts/</loc>
     <lastmod>2025-08-08T19:16:51+03:30</lastmod>
   </url><url>
     <loc>https://ali-askari-dev.github.io/</loc>

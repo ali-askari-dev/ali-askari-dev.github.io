@@ -9,11 +9,11 @@
     <lastBuildDate>Fri, 08 Aug 2025 19:16:51 +0330</lastBuildDate>
     <atom:link href="https://ali-askari-dev.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Unreal Engine: Defining Your Own Asset Types </title>
+      <title>Mastering Delegates in Unreal Engine</title>
       <link>https://ali-askari-dev.github.io/posts/post1/</link>
       <pubDate>Fri, 08 Aug 2025 19:16:51 +0330</pubDate>
       <guid>https://ali-askari-dev.github.io/posts/post1/</guid>
-      <description>Extend Unreal editor with your custom asset type</description>
+      <description>Understand the different types of delegates in Unreal Engine and when to use each one</description>
     </item>
     <item>
       <title>About me</title>
