@@ -71,8 +71,8 @@
   "keywords": [
     
   ],
-  "articleBody": "What are Delegates? In Unreal Engine, Delegates provide a callback mechanism that allows one piece of code to notify other parts of the program when something happens. They enable an event-driven programming style by separating the event sender from the event receiver–meaning the object triggering the event doesn’t need to know who is listening, only that it can broadcast the event when needed. This makes code more modular and maitainable.\nTypes of Delegates Unreal Engine provides four main kinds of delegates, each with its own use case:\nSimple – Holds one bound function. Multicast – Can call multiple bound functions. Dynamic – Single delegate that supports reflection and Blueprint binding. Dynamic Multicast – Multicast delegate with reflection and Blueprint binding. Simple Delegate A simple delegate can be declared using the DECLARE_DELEAGE(DelegateName) macro. The code below shows the declaration of a simple delegate:\nDECLARE_DELEGATE(FOnMyEventOccured); After declaring the delegate type, we can create instances of it:\nFOnMyEventOccured OnMyEventOccured; Now, we can bind our delegate to different types of receivers and execute it. Let’s bind and execute our delegate:\nDECLARE_DELEGATE(FOnMyEventOccured); void ReceiverFunction() { UE_LOG(LogTemp, Warning, TEXT(\"ReceiverFunction called\")); } void TestDelegate() { FOnMyEventOccured OnMyEventOccured; OnMyEventOccured.BindStatic(\u0026ReceiverFunction); if (OnMyEventOccured.IsBound()) { OnMyEventOccured.Execute(); } } ",
-  "wordCount" : "197",
+  "articleBody": "What are Delegates? In Unreal Engine, delegates provide a callback system that lets one piece of code notify others when an event occurs. This enables an event-driven approach by decoupling the sender from the receivers, making code more modular and maintainable.\nTypes of Delegates Unreal Engine provides four main types of delegates, each suited to different needs:\nSimple – Holds a single bound function Multicast – Invokes multiple bound functions Dynamic – Single delegate that supports reflection and Blueprint binding Dynamic Multicast – Multicast delegate with reflection and Blueprint binding Simple Delegate In order to declare a simple delegate, we need to use the DECLARE_DELEAGE(DelegateName) macro. The code below shows the declaration of a simple delegate.\nDECLARE_DELEGATE(FOnMyEventOccured); Remember that delegate declarations should be placed in a header file that includes its .generated.h file.\nAfter declaring a delegate type, we can create instances of it:\nFOnMyEventOccured OnMyEventOccured; Now, we can bind our delegate and execute it. There are several functions for binding simple delegates that each one of them is used for a specific type of receivers:\nBindStatic BindLambda BindSPLambda BindWeakLambda BindRaw BindSP BindThreadSafeSP BindUFunction BindUObject Let’s talk about how to use each of them:\nBindStatic : Can be used to bind a global or a static member function. It can also bind lambdas which don’t have any captures:\nvoid ReceiverFunction() { UE_LOG(LogTemp, Warning, TEXT(\"ReceiverFunction called\")); } class Foo { public: static void StaticReceiverFunction(); }; void Foo::StaticReceiverFunction() { UE_LOG(LogTemp, Warning, TEXT(\"StaticReceiverFunction called\")); } void TestDelegate() { FOnMyEventOccured OnMyEventOccured; // Binding a global function OnMyEventOccured.BindStatic(\u0026ReceiverFunction); if (OnMyEventOccured.IsBound()) OnMyEventOccured.Execute(); // Calls ReceiverFunction // Binding a static member function OnMyEventOccured.BindStatic(\u0026Foo::StaticReceiverFunction); if (OnMyEventOccured.IsBound()) OnMyEventOccured.Execute(); // Calls Foo::StaticReceiverFunction // Binding a captureless lambda OnMyEventOccured.BindStatic([](){ UE_LOG(LogTemp, Warning, TEXT(\"Lambda called\")); }); if (OnMyEventOccured.IsBound()) OnMyEventOccured.Execute(); // Calls the lambda // // The one below won't compile because of the capture: // // int C; // OnMyEventOccured.BindStatic([C](){}); // } BindLambda :\nBindSPLambda :\nBindWeakLambda :\nBindRaw :\nBindSP :\nBindThreadSafeSP :\nBindUFunction :\nBindUObject :\nMulticast Delegate Dynamic Delegate Dynamic Multicast Delegate ",
+  "wordCount" : "332",
   "inLanguage": "en",
   "datePublished": "2025-08-08T19:16:51+03:30",
   "dateModified": "2025-08-08T19:16:51+03:30",
@@ -162,47 +162,99 @@
 
 </div>
   </header> 
-  <div class="post-content"><h3 id="what-are-delegates">What are Delegates?<a hidden class="anchor" aria-hidden="true" href="#what-are-delegates">#</a></h3>
-<p>In Unreal Engine, Delegates provide a callback mechanism that allows one piece of
-code to notify other parts of the program when something happens. They enable
-an event-driven programming style by separating the event sender from the
-event receiver&ndash;meaning the object triggering the event doesn&rsquo;t need to know
-who is listening, only that it can broadcast the event when needed. This makes
-code more modular and maitainable.</p>
-<h3 id="types-of-delegates">Types of Delegates<a hidden class="anchor" aria-hidden="true" href="#types-of-delegates">#</a></h3>
-<p>Unreal Engine provides four main kinds of delegates, each with its own use case:</p>
+  <div class="post-content"><h2 id="what-are-delegates">What are Delegates?<a hidden class="anchor" aria-hidden="true" href="#what-are-delegates">#</a></h2>
+<p>In Unreal Engine, delegates provide a callback system that lets one
+piece of code notify others when an event occurs. This enables an
+event-driven approach by decoupling the sender from the receivers, making
+code more modular and maintainable.</p>
+<h2 id="types-of-delegates">Types of Delegates<a hidden class="anchor" aria-hidden="true" href="#types-of-delegates">#</a></h2>
+<p>Unreal Engine provides four main types of delegates, each suited to different needs:</p>
 <ul>
-<li><strong>Simple</strong> – Holds one bound function.</li>
-<li><strong>Multicast</strong> – Can call multiple bound functions.</li>
-<li><strong>Dynamic</strong> – Single delegate that supports reflection and Blueprint binding.</li>
-<li><strong>Dynamic Multicast</strong> – Multicast delegate with reflection and Blueprint binding.</li>
+<li><strong>Simple</strong> &ndash; Holds a single bound function</li>
+<li><strong>Multicast</strong> &ndash; Invokes multiple bound functions</li>
+<li><strong>Dynamic</strong> &ndash; Single delegate that supports reflection and Blueprint binding</li>
+<li><strong>Dynamic Multicast</strong> &ndash; Multicast delegate with reflection and Blueprint binding</li>
 </ul>
-<h3 id="simple-delegate">Simple Delegate<a hidden class="anchor" aria-hidden="true" href="#simple-delegate">#</a></h3>
-<p>A simple delegate can be declared using the <code>DECLARE_DELEAGE(DelegateName)</code> macro.
-The code below shows the declaration of a simple delegate:</p>
+<h2 id="simple-delegate">Simple Delegate<a hidden class="anchor" aria-hidden="true" href="#simple-delegate">#</a></h2>
+<p>In order to declare a simple delegate, we need to use the <code>DECLARE_DELEAGE(DelegateName)</code> macro.
+The code below shows the declaration of a simple delegate.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>DECLARE_DELEGATE(FOnMyEventOccured);
-</span></span></code></pre></div><p>After declaring the delegate type, we can create instances of it:</p>
+</span></span></code></pre></div><p>Remember that delegate declarations should be placed in a header file that includes its <code>.generated.h</code> file.</p>
+<p>After declaring a delegate type, we can create instances of it:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>FOnMyEventOccured OnMyEventOccured;
-</span></span></code></pre></div><p>Now, we can <strong>bind</strong> our delegate to different types of receivers and <strong>execute</strong> it. Let&rsquo;s bind and execute our delegate:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>DECLARE_DELEGATE(FOnMyEventOccured);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">ReceiverFunction</span>()
+</span></span></code></pre></div><p>Now, we can <strong>bind</strong> our delegate and <strong>execute</strong> it.
+There are several functions for binding simple delegates that each one of them
+is used for a specific type of receivers:</p>
+<ul>
+<li>BindStatic</li>
+<li>BindLambda</li>
+<li>BindSPLambda</li>
+<li>BindWeakLambda</li>
+<li>BindRaw</li>
+<li>BindSP</li>
+<li>BindThreadSafeSP</li>
+<li>BindUFunction</li>
+<li>BindUObject</li>
+</ul>
+<p>Let&rsquo;s talk about how to use each of them:</p>
+<p><strong><code>BindStatic</code></strong> : Can be used to bind a global or a static member function. It can also
+bind lambdas which don&rsquo;t have any captures:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">ReceiverFunction</span>() 
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;ReceiverFunction called&#34;</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> StaticReceiverFunction();
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> Foo<span style="color:#f92672">::</span>StaticReceiverFunction()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;StaticReceiverFunction called&#34;</span>));
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">TestDelegate</span>()
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    FOnMyEventOccured OnMyEventOccured;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    OnMyEventOccured.BindStatic(<span style="color:#f92672">&amp;</span>ReceiverFunction);
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Binding a global function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    OnMyEventOccured.BindStatic(<span style="color:#f92672">&amp;</span>ReceiverFunction);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (OnMyEventOccured.IsBound()) 
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        OnMyEventOccured.Execute();
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div>
+</span></span><span style="display:flex;"><span>        OnMyEventOccured.Execute(); <span style="color:#75715e">// Calls ReceiverFunction 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Binding a static member function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    OnMyEventOccured.BindStatic(<span style="color:#f92672">&amp;</span>Foo<span style="color:#f92672">::</span>StaticReceiverFunction);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (OnMyEventOccured.IsBound()) 
+</span></span><span style="display:flex;"><span>        OnMyEventOccured.Execute(); <span style="color:#75715e">// Calls Foo::StaticReceiverFunction 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Binding a captureless lambda
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    OnMyEventOccured.BindStatic([](){
+</span></span><span style="display:flex;"><span>        UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Lambda called&#34;</span>));
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (OnMyEventOccured.IsBound()) 
+</span></span><span style="display:flex;"><span>        OnMyEventOccured.Execute(); <span style="color:#75715e">// Calls the lambda
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// The one below won&#39;t compile because of the capture:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// int C;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// OnMyEventOccured.BindStatic([C](){}); 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p><code>BindLambda</code> :</p>
+<p><code>BindSPLambda</code> :</p>
+<p><code>BindWeakLambda</code> :</p>
+<p><code>BindRaw</code> :</p>
+<p><code>BindSP</code> :</p>
+<p><code>BindThreadSafeSP</code> :</p>
+<p><code>BindUFunction</code> :</p>
+<p><code>BindUObject</code> :</p>
+<h3 id="multicast-delegate">Multicast Delegate<a hidden class="anchor" aria-hidden="true" href="#multicast-delegate">#</a></h3>
+<h3 id="dynamic-delegate">Dynamic Delegate<a hidden class="anchor" aria-hidden="true" href="#dynamic-delegate">#</a></h3>
+<h3 id="dynamic-multicast-delegate">Dynamic Multicast Delegate<a hidden class="anchor" aria-hidden="true" href="#dynamic-multicast-delegate">#</a></h3>
+
 
   </div>
 
